@@ -16,9 +16,11 @@ function isNumber(n) {
 }
 
 window.ethereum.on('accountsChanged', function (accounts) {
-  consolePrint('Account changed, auto connecting...')
-  walletStatus = WALLET_STATUS.INSTALLED
-  consoleEnter('/connect')
+    if (walletStatus == WALLET_STATUS.CONNECTED) {
+        consolePrint('Account changed, auto connecting...')
+        walletStatus = WALLET_STATUS.INSTALLED
+        consoleEnter('/connect')        
+    }
 })
 
 async function connect(auto) {
@@ -130,20 +132,15 @@ async function getAccount() {
 
 async function updateGameStatus() {
     if (gameContract) {
-        r = await gameContract.publicPrice()
-        if (r) {
-            console.log('Mint price: ', Web3.utils.fromWei(r.toString(), 'ether') , 'e')
-            mintPrice = r
-        }
-        r = await gameContract.totalSupply()
-        if (r) {
-            totalSupply = parseInt(r)
-            console.log('Total supply: ', totalSupply)
-        }
         r = await gameContract.getPublicSaleStatus()
         if (r) {
+            r = await gameContract.totalSupply()
+            if (r) {
+                totalSupply = parseInt(r)
+                console.log('Total supply: ', totalSupply)
+            }
             console.log('Mint Phase')
-            if (totalSupply >= 21) {
+            if (totalSupply >= 3333) {
                 gamePhase = GamePhase.GAME
                 consolePrint('<span style="color: #00F400">We are SOLD OUT</span>, use <span style="color: yellow">/help</span> for more info about game.')
             } else {
@@ -153,6 +150,11 @@ async function updateGameStatus() {
         } else {
             console.log('Pre-Mint Phase')
             consolePrint('<span style="color: #00F400">Mint has not started yet</span>, be sure to follow our <a href="https://twitter.com/FeedingGame" target="_blank">twitter</a>.')
+        }
+        r = await gameContract.publicPrice()
+        if (r) {
+            console.log('Mint price: ', Web3.utils.fromWei(r.toString(), 'ether') , 'e')
+            mintPrice = r
         }
     }
 }
@@ -194,11 +196,7 @@ async function mint(s) {
             return { code: 1, msg: msg }
         }
         console.log('Mint ', mintNum)
-        if (numberMinted == 0) {
-            consolePrint('Mint '+ mintNum + ' for FREE ...')
-        } else {
-            consolePrint('Mint '+ mintNum + ' ...')            
-        }
+        consolePrint('Mint '+ mintNum + ' ...')            
         consoleScrollToBottom()
         try {
             tx = await gameContract.publicSaleMint(mintNum, { value: Web3.utils.toWei(totalMintPrice.toString(),'wei')} )
@@ -276,8 +274,8 @@ async function fish(cmd) {
         }
         console.log(r)
         msg = 'Fish #' + id + ' '
-        if (owner.toLowerCase() == userAccount) {
-            msg += '<span style="color: yellow">(You are the owner of this fish)'
+        if (r.owner.toLowerCase() == userAccount) {
+            msg += '<span style="color: yellow">(You are the owner)'
         }
         msg += '<br/>'
         msg += 'Level ' + r.level +' (Size:'+ r.size +')'+ '<br/>'

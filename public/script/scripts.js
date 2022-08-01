@@ -73,10 +73,10 @@ async function consoleEnter($s) {
         param = ''
     }
 
-    // console.log('event', $s.split(' ')[0], 'param', param)
-    // gtag('event', $s.split(' ')[0], {
-    //   param: param
-    // })
+    console.log('event', $s.split(' ')[0], 'param', param)
+    gtag('event', $s.split(' ')[0], {
+      param: param
+    })
 
     // append entered text from input
     $('div.consolebody > p:last-child').after("<p class='owncode'>" + $s + "</p>");
@@ -94,10 +94,11 @@ async function handleCommand($s){
     // HANDLE COMMAND //
     ////////////////////
     if ($s in localMessages) {
+        contextCommandName = ''
         consolePrint(localMessages[$s])
     } else if ($s.toLowerCase().split(' ')[0] in localCommands) {
+        contextCommandName = ''
         r = await localCommands[$s.toLowerCase().split(' ')[0]]($s)
-        // console.log(r)
         consolePrint(r.msg)
     } else if ($s in optionCommands && contextCommandName != '') {
 		r = await localCommands[contextCommandName]($s)

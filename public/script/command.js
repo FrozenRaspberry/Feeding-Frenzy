@@ -13,7 +13,7 @@ async function help() {
 		}
 		msg += '/contract'+htmlSpace(6)+'Official contract address' + '<br/>'
 		msg += 'GAME COMMAND' + '<br/>'
-		msg += '/rule'+htmlSpace(10)+'Learn the basic rule of the game' + '<br/>'
+		msg += '/rule'+htmlSpace(10)+'Learn the basic rules of the game' + '<br/>'
 		msg += '/fish'+htmlSpace(10)+'Check your fish' + '<br/>'
 		msg += '/eat'+htmlSpace(11)+'Eat other fish, yummy' + '<br/>'
 		msg += '/upgrade'+htmlSpace(7)+'Upgrade your fish, power!' + '<br/>'
@@ -50,6 +50,8 @@ async function game(op) {
 	msg += 'Feeding Frenzy is a game on Ethereum involving ' + '<br/>'
 	msg += 'the marine food chain. You will mint your own ' + '<br/>'
 	msg += 'marine predators and munch your way to the top.' + '<br/>'
+	totalSupply = await gameContract.totalSupply()
+	msg += 'Fish Left: <span style="color: yellow">' + totalSupply + '</span>' + '<br/>'
     return {code: 0,msg: msg}
 }
 
@@ -58,15 +60,40 @@ async function rule(number) {
 		msg = ''
 		msg += 'About the game:' + '<br/>'
 		msg += '1. Fish' + '<br/>'
-		msg += '2. Eat' + '<br/>'
-		msg += '3. Upgrade' + '<br/>'
+		msg += '2. Level and Size' + '<br/>'
+		msg += '3. Eat' + '<br/>'
+		msg += '4. Upgrade' + '<br/>'
 		contextCommandName = 'rule'
 	    return {code: 0,msg: msg}
 	} else {
-		console.log(number)
-		contextCommandName = ''
+		if (number == 1 ) {
+			msg = '== Fish ==' + '<br/>'
+			msg += 'a. Fishes can be minted from contract or bought from market.' + '<br/>'
+			msg += 'b. You can have as many fishes as you like.' + '<br/>'
+			msg += 'c. Each fish is a unique NFT, you can transfer or trade them just like any other NFTs.' + '<br/>'
+			return {code: 0,msg: msg}
+		} else if (number == 2) {
+			msg = '== Level and Size ==' + '<br/>'
+			msg += 'a. Each fish has its own level and size.' + '<br/>'
+			msg += 'b. Bigger size = higher level.' + '<br/>'
+			msg += 'c. A fish gains weight(size) by eating other fishes.' + '<br/>'
+			msg += 'd. The max level is 10.' + '<br/>'
+			return {code: 0,msg: msg}
+		} else if (number == 3) {
+			msg = '== Eat ==' + '<br/>'
+			msg += 'a. A fish with higher level can eat a fish with lower level and gains weight.' + '<br/>'
+			msg += 'b. A fish with lower level can still eat(attack) a fish with higher level.' + '<br/>'
+			msg += '   The smaller fish will be eaten, but the bigger fish will lose weight.' + '<br/>'
+			msg += "c. Two fishes with the same level can't eat each other, they will lose weight during battle." + '<br/>'
+			return {code: 0,msg: msg}
+		} else if (number == 4) {
+			msg = '== Upgrade ==' + '<br/>'
+			msg += 'a. A fish can be upgraded 3 times.' + '<br/>'
+			msg += 'b. 1 upgrade grants 1 level for a fish.' + '<br/>'
+			msg += "c. Fishes with higher level cost more during upgrade." + '<br/>'
+			return {code: 0,msg: msg}
+		}
 	}
-
 }
 
 var localMessages = {

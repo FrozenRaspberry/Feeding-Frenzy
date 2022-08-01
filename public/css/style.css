@@ -56,7 +56,7 @@ body * {
 .console .consolebody {
 	box-sizing: border-box;
 	padding: 20px 20px 20px 40px;
-	height: 60%;
+	height: 70%;
 	min-height: 220px;
 	color: #ffffff;
 	overflow: hidden;
@@ -177,7 +177,7 @@ footer {
 
 .writetext:before {
 }
-
+/*
 @media (max-width: 1000px) {
 	.left {
 		width: 70%;
@@ -185,7 +185,7 @@ footer {
 	.right {
 		width: 30%;
 	}
-}
+}*/
 
 @media (max-width: 900px) {
 	.console {
@@ -199,10 +199,7 @@ footer {
 		margin-top: 30px;
 	}
 	.right,
-	.left {
-		float: left;
-		width: 100%;
-	}
+
 	.console {
 		width: 100%;
 		height: inherit;
@@ -222,6 +219,6 @@ footer {
 		margin-right: 10px;
 	}
 	.console .consolebody {
-		height: 220px;
+		height: 80%;
 	}
 }
