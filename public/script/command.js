@@ -51,7 +51,8 @@ async function game(op) {
 	msg += 'the marine food chain. You will mint your own ' + '<br/>'
 	msg += 'marine predators and munch your way to the top.' + '<br/>'
 	totalSupply = await gameContract.totalSupply()
-	msg += 'Fish Left: <span style="color: yellow">' + totalSupply + '</span>' + '<br/>'
+	deadFish = await gameContract.balanceOf('0x000000000000000000000000000000000000dEaD')
+	msg += 'Fish Alive: <span style="color: yellow">' + (totalSupply - deadFish).toString() + '</span>'+ '<br/>'
     return {code: 0,msg: msg}
 }
 
@@ -68,15 +69,15 @@ async function rule(number) {
 	} else {
 		if (number == 1 ) {
 			msg = '== Fish ==' + '<br/>'
-			msg += 'a. Fishes can be minted from contract or bought from market.' + '<br/>'
-			msg += 'b. You can have as many fishes as you like.' + '<br/>'
-			msg += 'c. Each fish is a unique NFT, you can transfer or trade them just like any other NFTs.' + '<br/>'
+			msg += 'a. Fish can be minted from contract or bought from market.' + '<br/>'
+			msg += 'b. You can have as many fish as you like.' + '<br/>'
+			msg += 'c. Each fish is a unique NFT. You can transfer or trade them just like any other NFTs.' + '<br/>'
 			return {code: 0,msg: msg}
 		} else if (number == 2) {
 			msg = '== Level and Size ==' + '<br/>'
 			msg += 'a. Each fish has its own level and size.' + '<br/>'
 			msg += 'b. Bigger size = higher level.' + '<br/>'
-			msg += 'c. A fish gains weight(size) by eating other fishes.' + '<br/>'
+			msg += 'c. A fish gains weight (size) by eating other fish.' + '<br/>'
 			msg += 'd. The max level is 10.' + '<br/>'
 			return {code: 0,msg: msg}
 		} else if (number == 3) {
@@ -84,13 +85,13 @@ async function rule(number) {
 			msg += 'a. A fish with higher level can eat a fish with lower level and gains weight.' + '<br/>'
 			msg += 'b. A fish with lower level can still eat(attack) a fish with higher level.' + '<br/>'
 			msg += '   The smaller fish will be eaten, but the bigger fish will lose weight.' + '<br/>'
-			msg += "c. Two fishes with the same level can't eat each other, they will lose weight during battle." + '<br/>'
+			msg += "c. Two fish with the same level can't eat each other, they will lose weight during battle." + '<br/>'
 			return {code: 0,msg: msg}
 		} else if (number == 4) {
 			msg = '== Upgrade ==' + '<br/>'
 			msg += 'a. A fish can be upgraded 3 times.' + '<br/>'
 			msg += 'b. 1 upgrade grants 1 level for a fish.' + '<br/>'
-			msg += "c. Fishes with higher level cost more during upgrade." + '<br/>'
+			msg += "c. Fish with higher levels are more expensive to upgrade." + '<br/>'
 			return {code: 0,msg: msg}
 		}
 	}

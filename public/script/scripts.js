@@ -11,9 +11,9 @@ const GamePhase = {
 }
 
 // const env = ENV.TEST
-const env = ENV.TEST
+const env = ENV.PROD
 
-var openseaCollectionName = 'oscollection'
+var openseaCollectionName = 'feeding-frenzy-fish'
 
 var gamePhase = GamePhase.PREMINT
 var contextCommandName = ''
